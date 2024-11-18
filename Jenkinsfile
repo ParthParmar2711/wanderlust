@@ -40,8 +40,26 @@ pipeline {
         }
         stage("Deploy using Docker Compose") {
             steps {
-                sh "docker-compose down"
-                sh "docker-compose up -d"
+                // Step 1: Stop and remove all running containers
+            sh """
+                echo "Stopping and removing all running containers..."
+                docker ps -q | xargs -r docker stop || true
+                docker ps -aq | xargs -r docker rm || true
+            """
+
+            // Step 2: Remove any existing Docker Compose setup
+            sh """
+                echo "Bringing down Docker Compose environment..."
+                docker-compose down || true
+                docker-compose rm -f || true
+            """
+
+            // Step 3: Start fresh containers
+            sh """
+                echo "Starting fresh containers with Docker Compose..."
+                docker-compose up -d
+            """
+
             }
         }
     }
