@@ -43,11 +43,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            echo "Cleaning up workspace..."
-            cleanWs() // Cleans up the Jenkins workspace after the build
-        }
-    }
-}
-
+   
