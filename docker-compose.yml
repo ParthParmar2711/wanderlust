@@ -1,5 +1,16 @@
 version: "3.8"
 services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+
   mongodb: 
     container_name: mongo
     image: mongo:latest
